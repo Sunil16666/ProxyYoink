@@ -1,2 +1,3 @@
 .idea/
-raw_proxies.txt
+raw_proxies*.txt
+test.py
