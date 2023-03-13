@@ -9,7 +9,7 @@ def proxies():
 
     while True:
         payload['page'] = str(page_num)
-        data = requests.get(url, params=payload)
+        data = requests.get(url, params=payload, proxies=proxies)
         content = data.json()['data']
         proxy_data = [(proxy['ip'], proxy['port'], proxy['protocols']) for proxy in content]
 
