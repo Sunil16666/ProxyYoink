@@ -18,5 +18,6 @@ def file_splitting():
                 if file_index > 10000:
                     break
             f_out.close()
+            print('FileSplitting COMPLETED')
     except FileNotFoundError:
         print('FileNotFound')

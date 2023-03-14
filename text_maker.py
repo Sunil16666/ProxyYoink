@@ -3,6 +3,7 @@ import os.path
 
 
 def proxy_list_conversion():
+    print('Scraping COMPLETED')
     proxy_list = [
         f"{protocol}://{ip}:{port}"
         for sublist in proxies()
@@ -13,5 +14,5 @@ def proxy_list_conversion():
     with open(os.path.join('/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies', 'raw_proxies.txt'), 'w') as f:
         for proxy in proxy_list:
             f.write('\n'.join(proxy_list))
-
+    print('Conversion COMPLETED')
 

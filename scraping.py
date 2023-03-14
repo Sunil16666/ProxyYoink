@@ -8,12 +8,13 @@ def proxies():
     proxy_list = []
 
     while True:
+        print(f'page {page_num}')
         payload['page'] = str(page_num)
         data = requests.get(url, params=payload)
         content = data.json()['data']
         proxy_data = [(proxy['ip'], proxy['port'], proxy['protocols']) for proxy in content]
 
-        if not content:
+        if len(content) == 0:
             break
 
         proxy_list.append(proxy_data)
