@@ -21,3 +21,5 @@ def file_splitting():
             f_out.close()
     except FileNotFoundError:
         print('FileNotFound')
+
+    return file_index
