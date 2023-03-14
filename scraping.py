@@ -1,5 +1,4 @@
 import requests
-from tqdm import tqdm
 
 
 def proxies():
@@ -9,18 +8,17 @@ def proxies():
     proxy_list = []
 
     while True:
-        print(f'Page {page_num}')
+        print(f"\rPage {page_num}", end="")
         payload['page'] = str(page_num)
         data = requests.get(url, params=payload)
         content = data.json()['data']
         proxy_data = [(proxy['ip'], proxy['port'], proxy['protocols']) for proxy in content]
 
         if len(content) == 0:
+            print('\nScraping COMPLETED')
             break
 
         proxy_list.append(proxy_data)
         page_num += 1
-        print('Scraping COMPLETED')
+
     return proxy_list
-
-
