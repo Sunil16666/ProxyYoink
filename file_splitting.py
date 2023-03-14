@@ -1,11 +1,11 @@
 import os.path
-from text_maker import proxy_list_conversion
 
 
 def file_splitting():
     max_lines = 100000
     try:
-        with open('raw_proxies.txt', 'r') as f_in:
+        with open(os.path.join('/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies',
+                               'raw_proxies.txt'), 'r') as f_in:
             line_count = 0
             file_index = 0
             for line in f_in:
@@ -20,6 +20,3 @@ def file_splitting():
             f_out.close()
     except FileNotFoundError:
         print('FileNotFound')
-
-
-file_splitting()
