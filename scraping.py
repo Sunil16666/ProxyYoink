@@ -1,4 +1,8 @@
+import os
+
 import requests
+
+from yaspin import yaspin
 
 
 def proxies():
@@ -8,17 +12,20 @@ def proxies():
     proxy_list = []
 
     while True:
-        print(f"\rPage {page_num}", end="")
-        payload['page'] = str(page_num)
-        data = requests.get(url, params=payload)
-        content = data.json()['data']
-        proxy_data = [(proxy['ip'], proxy['port'], proxy['protocols']) for proxy in content]
+        with yaspin(text=f"Scraping page {page_num}") as spinner:
+            payload['page'] = str(page_num)
+            data = requests.get(url, params=payload)
+            content = data.json()['data']
+            proxy_data = [(proxy['ip'], proxy['port'], proxy['protocols']) for proxy in content]
 
-        if len(content) == 0:
-            print('\nScraping COMPLETED')
-            break
+            if len(content) == 0:
+                spinner.fail("💥 ")
+                print('\nScraping COMPLETED')
+                break
+            else:
+                spinner.ok('✅ ')
 
-        proxy_list.append(proxy_data)
-        page_num += 1
+            proxy_list.append(proxy_data)
+            page_num += 1
 
     return proxy_list
