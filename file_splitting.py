@@ -14,6 +14,7 @@ def file_splitting():
         ) as f_in:
             line_count = 0
             file_index = 0
+            f_out = None
             for line in f_in:
                 if line_count % max_lines == 0:
                     file_index += 1
@@ -28,7 +29,10 @@ def file_splitting():
                 line_count += 1
                 if file_index > 10000:
                     break
-            f_out.close()
+            try:
+                f_out.close()
+            except AttributeError:
+                print('raw_proxies.txt is empty')
         print("FileSplitting COMPLETED")
     except FileNotFoundError:
         print("FileNotFound")

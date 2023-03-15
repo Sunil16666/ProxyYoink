@@ -1,3 +1,7 @@
+import json
+import urllib.error
+import urllib.request
+
 import requests
 from yaspin import yaspin
 
@@ -9,7 +13,7 @@ def proxies():
         "sort_by": "lastChecked",
         "sort_type": "desc",
     }
-    url = "https://proxyyoinkserver-production.up.railway.app/?"
+    url = "https://proxyyoinkserver-production.up.railway.app/455445"
     page_num = 1
     proxy_list = []
 
@@ -17,7 +21,11 @@ def proxies():
         with yaspin(text=f"Scraping page {page_num}") as spinner:
             payload["page"] = str(page_num)
             data = requests.get(url, params=payload)
-            content = data.json()["data"]
+            try:
+                content = data.json()["data"]
+            except json.JSONDecodeError:
+                print('\nERROR: requested content is empty')
+                quit()
             proxy_data = [
                 (proxy["ip"], proxy["port"], proxy["protocols"]) for proxy in content
             ]
