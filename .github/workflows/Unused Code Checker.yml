@@ -15,6 +15,7 @@ jobs:
         pip install coverage coverage-badge markdown-toc
     - name: Run tests and generate coverage report
       run: |
+        coverage erase
         coverage run -m unittest discover
         coverage report
         coverage html
@@ -26,16 +27,26 @@ jobs:
         coverage-badge -f -o coverage.svg
       env:
         CI: true
+    - name: Print coverage data
+      if: success()
+      run: |
+        echo "Coverage data:"
+        cat coverage.txt
     - name: Remove unused code
       if: ${{ github.event_name == 'push' && success() }}
       run: |
-        coverage erase
         readarray -t files < <(git ls-files -m | grep .py)
-        for file in "${files[@]}"
-        do
-          echo "Removing unused code in $file"
-          coverage run $file > /dev/null
-          coverage report $file | grep -v "^TOTAL$" | awk '{ print $2 }' | xargs sed -i '/^$/d'
-        done
+        if [ ${#files[@]} -eq 0 ]
+        then
+          echo "No modified Python files to process"
+        else
+          coverage erase
+          for file in "${files[@]}"
+          do
+            echo "Removing unused code in $file"
+            coverage run $file > /dev/null
+            coverage report $file | grep -v "^TOTAL$" | awk '{ print $2 }' | xargs sed -i '/^$/d'
+          done
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
