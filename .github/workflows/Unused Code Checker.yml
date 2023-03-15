@@ -1,0 +1,23 @@
+name: Unused Code Checker
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  unused-code-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install Flake8
+      run: pip install flake8
+
+    - name: Run Flake8
+      run: flake8 --select F401
