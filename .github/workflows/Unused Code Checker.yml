@@ -22,7 +22,7 @@ jobs:
     - name: Run Flake8
       run: |
         flake8 --select F401 --show-source --statistics .
-        sed -i '/^.*F401.*$/d' $(git ls-files '*.py')
+        git ls-files '*.py' | xargs sed -i '/^.*F401.*$/d'
 
     - name: Display Unused Code
       if: always()
