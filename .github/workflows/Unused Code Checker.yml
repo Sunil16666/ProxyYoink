@@ -12,14 +12,17 @@ jobs:
       uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        pip install coverage coverage-toc coverage-badge
+        pip install coverage coverage-badge markdown-toc
     - name: Run tests and generate coverage report
       run: |
         coverage run -m unittest discover
         coverage report
         coverage html
-        coverage xml
-        coverage_toc --output "coverage.md"
+        markdown-toc -i README.md
+        echo "## Table of Contents" > coverage-toc.md
+        sed -n '/^\s*Name\s*Stmts\s*Miss\s*Cover\s*$/,$p' coverage.txt | sed '$d' | sed '$d' | sed '$d' >> coverage-toc.md
+        echo "" >> coverage-toc.md
+        cat coverage.md >> coverage-toc.md
         coverage-badge -f -o coverage.svg
       env:
         CI: true
