@@ -1,4 +1,7 @@
-# WIP Project
+# ProxyYoink (WIP Project)
+
+## Description
+ProxyYoink is a simple python script that saves working proxies in a text file and updates them regularly. Working proxies are classified by small reponse time and high speeds.
 
 ## ProxyYoink Roadmap
 
