@@ -10,7 +10,7 @@ ProxyYoink is a simple python script that saves working proxies in a text file a
  * [x] check raw_proxies_*.txt
  * [x] implement fancy progress states
  * [x] blackify with github actions
- * [ ] add pylint with github actions as workflow
+ * [ ] check for unsued code via github actions
  * [ ] merge checked_proxies_*.txt
  * [ ] bypass cloudflare with rotating proxies
  * [ ] implement multithreading
