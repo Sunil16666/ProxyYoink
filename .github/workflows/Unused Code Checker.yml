@@ -12,20 +12,27 @@ jobs:
       uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        pip install flake8 flake8-unused-code
-    - name: Check for unused code
+        pip install coverage coverage-toc coverage-badge
+    - name: Run tests and generate coverage report
       run: |
-        flake8 --select F401 --ignore E402,W503 .
-      continue-on-error: true
+        coverage run -m unittest discover
+        coverage report
+        coverage html
+        coverage xml
+        coverage_toc --output "coverage.md"
+        coverage-badge -f -o coverage.svg
+      env:
+        CI: true
     - name: Remove unused code
       if: ${{ github.event_name == 'push' && success() }}
       run: |
-        flake8 --select F401 --ignore E402,W503 --per-file-ignores --extend-ignore=F .
+        coverage erase
         readarray -t files < <(git ls-files -m | grep .py)
         for file in "${files[@]}"
         do
           echo "Removing unused code in $file"
-          sed -i -e "$(flake8 --select F401 --ignore E402,W503 --per-file-ignores --extend-ignore=F $file | sed 's/:.*//g' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g')d" $file
+          coverage run $file > /dev/null
+          coverage report $file | grep -v "^TOTAL$" | awk '{ print $2 }' | xargs sed -i '/^$/d'
         done
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
