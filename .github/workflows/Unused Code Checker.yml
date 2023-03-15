@@ -20,4 +20,10 @@ jobs:
       run: pip install flake8
 
     - name: Run Flake8
-      run: flake8 --select F401
+      run: |
+        flake8 --select F401 --show-source --statistics .
+        sed -i '/^.*F401.*$/d' $(git ls-files '*.py')
+
+    - name: Display Unused Code
+      if: always()
+      run: cat flake8.log || true
