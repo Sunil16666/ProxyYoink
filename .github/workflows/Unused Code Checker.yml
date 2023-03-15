@@ -1,29 +1,31 @@
-name: Unused Code Checker
+name: Remove Unused Code
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  unused-code-check:
+  remove-unused-code:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Install Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-
-    - name: Install Flake8
-      run: pip install flake8
-
-    - name: Run Flake8
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install dependencies
       run: |
-        flake8 --select F401 --show-source --statistics .
-        git ls-files '*.py' | xargs sed -i '/^.*F401.*$/d'
-
-    - name: Display Unused Code
-      if: always()
-      run: cat flake8.log || true
+        pip install flake8 flake8-unused-code
+    - name: Check for unused code
+      run: |
+        flake8 --select F401 --ignore E402,W503 .
+      continue-on-error: true
+    - name: Remove unused code
+      if: ${{ github.event_name == 'push' && success() }}
+      run: |
+        flake8 --select F401 --ignore E402,W503 --per-file-ignores --extend-ignore=F .
+        readarray -t files < <(git ls-files -m | grep .py)
+        for file in "${files[@]}"
+        do
+          echo "Removing unused code in $file"
+          sed -i -e "$(flake8 --select F401 --ignore E402,W503 --per-file-ignores --extend-ignore=F $file | sed 's/:.*//g' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g')d" $file
+        done
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

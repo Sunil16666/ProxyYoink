@@ -1,4 +1,5 @@
 import json
+
 import urllib.error
 import urllib.request
 
@@ -13,7 +14,7 @@ def proxies():
         "sort_by": "lastChecked",
         "sort_type": "desc",
     }
-    url = "https://proxyyoinkserver-production.up.railway.app/455445"
+    url = "https://proxyyoinkserver-production.up.railway.app/"
     page_num = 1
     proxy_list = []
 
