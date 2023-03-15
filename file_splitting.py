@@ -14,7 +14,7 @@ def file_splitting():
         ) as f_in:
             line_count = 0
             file_index = 0
-            for line in tqdm(f_in, desc="FileSplitting COMPLETED"):
+            for line in f_in:
                 if line_count % max_lines == 0:
                     file_index += 1
                     f_out = open(
@@ -29,7 +29,6 @@ def file_splitting():
                 if file_index > 10000:
                     break
             f_out.close()
+        print("FileSplitting COMPLETED")
     except FileNotFoundError:
         print("FileNotFound")
-
-    return file_index
