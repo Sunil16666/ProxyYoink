@@ -11,8 +11,12 @@ def proxy_list_conversion():
         for protocol in protocols
     ]
 
-    with open(os.path.join('/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies', 'raw_proxies.txt'), 'w') as f:
+    with open(
+        os.path.join(
+            "/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies", "raw_proxies.txt"
+        ),
+        "w",
+    ) as f:
         for proxy in proxy_list:
-            f.write('\n'.join(proxy))
-    print('Conversion COMPLETED')
-
+            f.write("\n".join(proxy))
+    print("Conversion COMPLETED")
