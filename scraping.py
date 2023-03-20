@@ -18,7 +18,7 @@ def proxies():
     while True:
         with yaspin(text=f"Scraping page {page_num}") as spinner:
             payload["page"] = str(page_num)
-            data = requests.get(url, params=payload)
+            data = requests.get(url, params=payload, timeout=10)
             try:
                 content = data.json()["data"]
             except json.JSONDecodeError:
