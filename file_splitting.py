@@ -1,13 +1,13 @@
 import os.path
-from tqdm import tqdm
 
 
 def file_splitting():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     max_lines = 100000
     try:
         with open(
             os.path.join(
-                "/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies",
+                base_dir, "raw_proxies",
                 "raw_proxies.txt",
             ),
             "r",
@@ -20,7 +20,7 @@ def file_splitting():
                     file_index += 1
                     f_out = open(
                         os.path.join(
-                            "/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies",
+                            base_dir, "raw_proxies",
                             f"raw_proxies_{file_index}.txt",
                         ),
                         "w",

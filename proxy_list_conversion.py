@@ -1,6 +1,8 @@
 from scraping import proxies
 import os.path
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
 
 def proxy_list_conversion():
     x = proxies()
@@ -13,7 +15,7 @@ def proxy_list_conversion():
 
     with open(
         os.path.join(
-            "/Users/linushenn/PycharmProjects/ProxyYoink/raw_proxies", "raw_proxies.txt"
+            base_dir, "raw_proxies", "raw_proxies.txt"
         ),
         "w",
     ) as f:
