@@ -1,8 +1,5 @@
 import json
 
-import urllib.error
-import urllib.request
-
 import requests
 from yaspin import yaspin
 
