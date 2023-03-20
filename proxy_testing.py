@@ -7,7 +7,7 @@ def proxy_testing():
         num_lines = sum(1 for line in open('raw_proxies/raw_proxies.txt'))
         for i in range(1, num_lines // 100000 + 1):
             if os.path.exists(f"raw_proxies/raw_proxies_{i}.txt"):
-                mubeng = subprocess.run(
+                subprocess.run(
                     f'mubeng -f raw_proxies/raw_proxies_{i}.txt --check --output checked_proxies/checked_proxies.txt --timeout 5s'
                 )
             else:
