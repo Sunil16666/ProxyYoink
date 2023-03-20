@@ -7,7 +7,7 @@ def proxy_testing():
         for i in range(1, num_lines // 100000 + 1):
             if os.path.exists(f"raw_proxies/raw_proxies_{i}.txt"):
                 mubeng = os.system(
-                    f"mubeng -f raw_proxies/raw_proxies{i}.txt --check --output checked_proxies/checked_proxies.txt"
+                    f"mubeng -f --update raw_proxies/raw_proxies{i}.txt --check --timeout 5 --output checked_proxies/checked_proxies.txt"
                 )
             else:
                 print(f"raw_proxies_{i}.txt not found")
